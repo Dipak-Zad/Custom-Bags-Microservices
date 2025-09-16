@@ -1,0 +1,6 @@
+package com.bhrasta.order.service.Enums;
+
+public enum Status {
+
+	CREATED,PENDING,CONFIRMED,PICKED_UP,SHIPPED,IN_TRANSIT,OUT_FOR_DELIVERY,DELIVERED,RETURNED,REPLACED
+}

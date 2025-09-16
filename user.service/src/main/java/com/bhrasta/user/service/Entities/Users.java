@@ -47,7 +47,7 @@ public class Users {
 	@Column(name = "CREATED_DATE")
 	private LocalDateTime created_date;
 
-	@Column(name = "MODIFIED_BY", nullable = false)
+	@Column(name = "MODIFIED_BY")
 	private String modified_by;
 	
 	@UpdateTimestamp
