@@ -76,7 +76,6 @@ public class OrdersServiceImpl implements OrdersService {
 		existingOrder.setModifiedDate(LocalDateTime.now());
 		existingOrder.setModifiedBy("current logged in User");
 		
-		
 		return ordersRepo.save(existingOrder);
 	}
 

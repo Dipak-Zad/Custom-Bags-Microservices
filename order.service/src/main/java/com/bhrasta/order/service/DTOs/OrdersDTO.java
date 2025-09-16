@@ -14,8 +14,8 @@ public class OrdersDTO {
 	private String id;
 	private String bagId;
 	private String userId;
-	private double finalAmt;
-	private int quantity;
+	private Double finalAmt;
+	private Integer quantity;
 	private Status status;
 	private LocalDateTime createdDate;
 	private String createdBy;
