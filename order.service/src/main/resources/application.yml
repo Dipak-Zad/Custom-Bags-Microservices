@@ -1,4 +1,4 @@
 spring:
- data:
-  mongodb:
-   uri:mongodb+srv://AdminD:<Dadmin>@balacluster24.y7xhn.mongodb.net/?retryWrites=true&w=majority&appName=BalaCluster24
+  data:
+    mongodb:
+      uri: mongodb+srv://AdminD:Dadmin@balacluster24.y7xhn.mongodb.net/OrderMicroServDB?retryWrites=true&w=majority&appName=BalaCluster24

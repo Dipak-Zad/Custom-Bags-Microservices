@@ -11,10 +11,12 @@ public interface OrdersService{
 	
 	Orders GetOrder(String id);
 	
+	Orders findOrderByIdUsingTemplate(String id);
+	
 	List<Orders> GetAllOrders();
 	
 	Orders UpdateOrder(String id, OrdersDTO orderDTO);
 	
-	void DeleteOrder(String id);
+	boolean DeleteOrder(String id);
 	
 }

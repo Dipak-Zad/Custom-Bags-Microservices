@@ -30,14 +30,35 @@ public class OrdersController {
 	{
 		Orders newOrder = orderService.CreateOrder(ordersDTO);
 		
+		System.out.println("controller order "+newOrder);
+		
+		System.out.println("order bagId "+newOrder.getBagId());
+
+		System.out.println("order userId "+newOrder.getUserId());
+
+		System.out.println("order finalAmt "+newOrder.getFinalAmt());
+
+		System.out.println("order quantity "+newOrder.getQuantity());
+
+		System.out.println("order status "+newOrder.getStatus());
+
+		System.out.println("order createdDate "+newOrder.getCreatedDate());
+
+		System.out.println("order createdBy "+newOrder.getCreatedBy());
+
+		System.out.println("order modifiedDate "+newOrder.getModifiedDate());
+
+		System.out.println("order modifiedBy "+newOrder.getModifiedBy());
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
 	}
 	
-	@GetMapping("/findOrder/o_id")
+	@GetMapping("/findOrder/{o_id}")
 	public ResponseEntity<Orders> FindOrder(@PathVariable("o_id") String orderId)
 	{
-		Orders existingOrder = orderService.GetOrder(orderId);
 		
+		Orders existingOrder = orderService.findOrderByIdUsingTemplate(orderId);
+		System.out.println("order modifiedBy "+existingOrder.getId());
 		return ResponseEntity.ok(existingOrder);
 	}
 	
@@ -49,7 +70,7 @@ public class OrdersController {
 		return ResponseEntity.ok(allOrders);
 	}
 	
-	@PatchMapping("/updateOrder/o_id")
+	@PatchMapping("/updateOrder/{o_id}")
 	public ResponseEntity<Orders> UpdateOrder(@PathVariable("o_id") String orderId, @RequestBody OrdersDTO ordersDTO)
 	{
 		Orders updatedOrder = orderService.UpdateOrder(orderId, ordersDTO);
@@ -57,12 +78,12 @@ public class OrdersController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(updatedOrder);
 	}
 	
-	@DeleteMapping("/deleteOrder/o_id")
-	public ResponseEntity<Void> DeleteOrder(@PathVariable("o_id") String orderId)
+	@DeleteMapping("/deleteOrder/{o_id}")
+	public String DeleteOrder(@PathVariable("o_id") String orderId)
 	{
-		orderService.DeleteOrder(orderId);
+		boolean success = orderService.DeleteOrder(orderId);
 		
-		return (ResponseEntity<Void>) ResponseEntity.ok();
+		return success ? "User deleted successfully!" : "User deletion failed!";
 	}
 	
 }
