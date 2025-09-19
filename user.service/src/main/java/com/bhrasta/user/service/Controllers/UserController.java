@@ -29,6 +29,8 @@ public class UserController {
 	public ResponseEntity<Users> RegisterUser(@RequestBody UsersDTO userDTO)
 	{
 		Users newUser = userService.createUser(userDTO);
+		System.out.println("user created in controller !!!");
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
 	}
 	
@@ -54,9 +56,18 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/deleteUser/{u_id}")
-	public ResponseEntity<Void> RemoveUser(@PathVariable("u_id") String userId)
+	public String RemoveUser(@PathVariable("u_id") String userId)
 	{
-		userService.deleteUser(userId);
-		return (ResponseEntity<Void>) ResponseEntity.ok();
+		boolean success = userService.deleteUser(userId);
+		
+		if(success) 
+		{
+			System.out.println("User deleted successfully!"+success);
+		}
+		else {
+			System.out.println("User deletion failed!");
+		}
+		
+		return success ? "User deleted successfully!" : "User deletion failed!";
 	}
 }

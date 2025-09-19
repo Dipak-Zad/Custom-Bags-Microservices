@@ -25,66 +25,123 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public Users createUser(UsersDTO userDTO) {
 		
-		Users user = new Users();
+		try {
 		
-		String randomUserId = UUID.randomUUID().toString();
-		user.setId(randomUserId);
-		user.setCreated_date(LocalDateTime.now());
-		user.setCreated_by("current session user");
+			Users user = new Users();
+			
+			user = modelMapper.map(userDTO, Users.class);
+			
+			String randomUserId = UUID.randomUUID().toString();
+			user.setId(randomUserId);
+			user.setCreated_date(LocalDateTime.now());
+			user.setCreated_by("current session user");
+			
+			System.out.println("user created!!!");
+			
+			return userRepository.save(user);
 		
-		user = modelMapper.map(userDTO, Users.class);
-		
-		return userRepository.save(user);
+		}
+		catch (Exception e) {
+			//System.err.println(e);
+			e.printStackTrace();
+		}
+        
+        return null;
 	}
 
 	@Override
 	public Users getUser(String id) {
 		
+		try {
+		
 		return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with given Id is not found "+id));
+	
+		}
+		catch (Exception e) {
+			//System.err.println(e);
+			e.printStackTrace();
+		}
+        
+        return null;
 	}
 
 	@Override
 	public List<Users> getAllUser() {
 		
+		try {
+		
 		return userRepository.findAll();
+		
+		}
+		catch (Exception e) {
+			//System.err.println(e);
+			e.printStackTrace();
+		}
+        
+        return null;
 	}
 
 	@Override
 	public Users updateUser(String id, UsersDTO userDTO) {
 		
-		Users existingUsers = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with given Id is not found "+id));
-		
-		if (userDTO.getName() != null && !userDTO.getName().trim().isEmpty()) {
-	        existingUsers.setName(userDTO.getName());
-	    }
-		
-		if (userDTO.getMail() != null && !userDTO.getMail().trim().isEmpty()) {
-	        existingUsers.setMail(userDTO.getMail());
-	    }
-		
-		if (userDTO.getPhone() != null && !userDTO.getPhone().trim().isEmpty()) {
-	        existingUsers.setPhone(userDTO.getPhone());
-	    }
-		
-		if (userDTO.getLocation() != null && !userDTO.getLocation().trim().isEmpty()) {
-	        existingUsers.setLocation(userDTO.getLocation());
-	    }
-		
-		if (userDTO.getStatus() != null) {
-	        existingUsers.setStatus(userDTO.getStatus());
-	    }
-		
-		existingUsers.setModified_date(LocalDateTime.now());
-		existingUsers.setModified_by("current logged in User");
-		
-		return userRepository.save(existingUsers);
+		try {
+			
+			Users existingUsers = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with given Id is not found "+id));
+			
+			if (userDTO.getName() != null && !userDTO.getName().trim().isEmpty()) {
+		        existingUsers.setName(userDTO.getName());
+		    }
+			
+			if (userDTO.getMail() != null && !userDTO.getMail().trim().isEmpty()) {
+		        existingUsers.setMail(userDTO.getMail());
+		    }
+			
+			if (userDTO.getPhone() != null && !userDTO.getPhone().trim().isEmpty()) {
+		        existingUsers.setPhone(userDTO.getPhone());
+		    }
+			
+			if (userDTO.getLocation() != null && !userDTO.getLocation().trim().isEmpty()) {
+		        existingUsers.setLocation(userDTO.getLocation());
+		    }
+			
+			if (userDTO.getStatus() != null) {
+		        existingUsers.setStatus(userDTO.getStatus());
+		    }
+			
+			existingUsers.setModified_date(LocalDateTime.now());
+			existingUsers.setModified_by("current logged in User");
+			
+			return userRepository.save(existingUsers);
+		}
+		catch (Exception e) {
+			//System.err.println(e);
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
-	public void deleteUser(String id) {
+	public boolean deleteUser(String id) {
 		
-		userRepository.deleteById(id);
+		try {
+			
+			userRepository.deleteById(id);
+			
+			Users userCheck = userRepository.findById(id).orElse(null);	
 		
+			if(userCheck==null)
+			{	
+				System.out.println("user deleted in service layer");
+			}
+
+			return  userCheck == null;
+		
+		}
+		catch (Exception e) {
+			//System.err.println(e);
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

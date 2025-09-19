@@ -4,25 +4,30 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.Id;
 
 import com.bhrasta.user.service.Enums.Status;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name="USERS")
+@Entity
+@Table(name="users")
 public class Users {
 
 	@Id
+	//@GeneratedValue(generator = "uuid2") // Use uuid2 generator
+    //@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private String id;
 	
 	@Column(name = "NAME", nullable = false)
@@ -37,6 +42,7 @@ public class Users {
 	@Column(name = "LOCATION", nullable = false)
 	private String location;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "STATUS", nullable = false)
 	private Status status = Status.ACTIVE;
 
