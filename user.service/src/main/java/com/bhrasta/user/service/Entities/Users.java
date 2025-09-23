@@ -1,12 +1,14 @@
 package com.bhrasta.user.service.Entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Transient;
 
 import com.bhrasta.user.service.Enums.Status;
-
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,4 +61,7 @@ public class Users {
 	@UpdateTimestamp
 	@Column(name = "MODIFIED_DATE")
 	private LocalDateTime modified_date;
+	
+	@Transient
+	private List<Ratings> ratings = new ArrayList<>();
 }

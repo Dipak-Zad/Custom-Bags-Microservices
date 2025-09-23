@@ -79,9 +79,10 @@ public class BagsServiceImpl implements BagsService {
 		        existingBag.setBagModel(bagsDTO.getBagModel());
 		    }
 			
-			if (bagsDTO.getBagColor() != null && !bagsDTO.getBagColor().trim().isEmpty()) {
-		        existingBag.setBagColor(bagsDTO.getBagColor());
-		    }
+//			if (bagsDTO.getRating() != null && (bagsDTO.getRating()<6 && bagsDTO.getRating()>0)) {
+//				
+//		        existingBag.setRating(bagsDTO.getRating());
+//		    }
 			
 			if (bagsDTO.getBagPrice() != null && !bagsDTO.getBagPrice().trim().isEmpty()) {
 		        existingBag.setBagPrice(bagsDTO.getBagPrice());

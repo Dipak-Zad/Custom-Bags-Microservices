@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Transient;
 
 import com.bhrasta.bag.service.Enums.Status;
 import com.bhrasta.bag.service.Enums.Type;
@@ -30,9 +31,6 @@ public class Bags {
 	
 	@Column(name = "model", nullable = false)
 	private String bagModel;
-
-	@Column(name = "color", nullable = false)
-	private String bagColor;
 	
 	@Column(name = "price", nullable = false)
 	private String bagPrice;
@@ -58,5 +56,8 @@ public class Bags {
 
 	@Column(name = "modified_by")
 	private String modifiedBy;
+	
+	//@Transient
+	//private Ratings rating;
 	
 }

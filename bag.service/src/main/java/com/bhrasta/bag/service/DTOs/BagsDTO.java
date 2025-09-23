@@ -14,7 +14,7 @@ public class BagsDTO {
 
 	private String id;	
 	private String bagModel;
-	private String bagColor;
+//	private Integer rating;
 	private String bagPrice;
 	private Type bagType;
 	private Status status = Status.AVAILABLE;
