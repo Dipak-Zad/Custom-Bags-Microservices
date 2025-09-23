@@ -62,6 +62,6 @@ public class Users {
 	@Column(name = "MODIFIED_DATE")
 	private LocalDateTime modified_date;
 	
-	@Transient
-	private List<Ratings> ratings = new ArrayList<>();
+//	@Transient
+//	private List<Ratings> ratings = new ArrayList<>();
 }

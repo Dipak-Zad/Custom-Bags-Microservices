@@ -1,4 +1,18 @@
+server:
+  port: 8080
+
 spring:
+  application:
+    name: order-service
   data:
     mongodb:
       uri: mongodb+srv://AdminD:Dadmin@balacluster24.y7xhn.mongodb.net/OrderMicroServDB?retryWrites=true&w=majority&appName=BalaCluster24
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
