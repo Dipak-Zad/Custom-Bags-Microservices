@@ -1,6 +1,5 @@
 package com.bhrasta.order.service.Services;
 
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -103,6 +102,45 @@ public class OrdersServiceImpl implements OrdersService {
     }
 	
 	@Override
+	public List<Orders> getAllUserOrders(String userId) {
+		try {
+			
+	        	List<Orders> userOrders = ordersRepo.findByUserId(userId);
+	        
+	        	return userOrders == null ? null : userOrders;
+	        
+			}
+			catch (Exception e) {
+				//System.err.println(e);
+				//e.printStackTrace();
+				
+				throw new ResourceNotFoundException("There is no order with given userID !! "+userId);
+			}
+		//return null;
+	}
+
+	@Override
+	public List<Orders> getAllBagOrders(String bagId) {
+		try {
+				List<Orders> bagOrders = ordersRepo.findByBagId(bagId);
+				
+				return bagOrders == null ? null : bagOrders;
+				
+				//Query query = new Query(Criteria.where("bagId").is(bagId));
+		        
+		        //return mongoTemplate.find(query, Orders.class);
+	        
+			}
+			catch (Exception e) {
+				//System.err.println(e);
+				//e.printStackTrace();
+				
+				throw new ResourceNotFoundException("There is no order with given bagID !! "+bagId);
+			}
+		//return null;
+	}
+	
+	@Override
 	public List<Orders> GetAllOrders() {
 		
 		try {
@@ -185,5 +223,7 @@ public class OrdersServiceImpl implements OrdersService {
 		return false;
 		
 	}
+
+	
 
 }

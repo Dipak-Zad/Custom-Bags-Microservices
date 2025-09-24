@@ -62,6 +62,22 @@ public class OrdersController {
 		return ResponseEntity.ok(existingOrder);
 	}
 	
+	@GetMapping("/findUserOrders/{u_id}")
+	public ResponseEntity<List<Orders>> FindAllUserOrders(@PathVariable("u_id") String userId)
+	{
+
+		List<Orders> userOrders = orderService.getAllUserOrders(userId);		
+		return ResponseEntity.ok(userOrders);
+	}
+	
+	@GetMapping("/findBagOrders/{b_id}")
+	public ResponseEntity<List<Orders>> FindAllBagOrders(@PathVariable("b_id") String bagId)
+	{
+
+		List<Orders> bagOrders = orderService.getAllBagOrders(bagId);		
+		return ResponseEntity.ok(bagOrders);
+	}
+	
 	@GetMapping("/findAllOrders")
 	public ResponseEntity<List<Orders>> FindAllOrders()
 	{

@@ -8,13 +8,16 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.Transient;
 
+import com.bhrasta.user.service.DTOs.OrdersDTO;
 import com.bhrasta.user.service.Enums.Status;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 
@@ -62,6 +65,9 @@ public class Users {
 	@Column(name = "MODIFIED_DATE")
 	private LocalDateTime modified_date;
 	
+	@Transient
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Orders> orders = new ArrayList<>();
 //	@Transient
 //	private List<Ratings> ratings = new ArrayList<>();
 }

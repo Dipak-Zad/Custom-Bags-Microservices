@@ -1,13 +1,16 @@
 package com.bhrasta.user.service.Services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.modelmapper.ModelMapper;
 
+import com.bhrasta.user.service.Entities.Orders;
 import com.bhrasta.user.service.DTOs.UsersDTO;
 import com.bhrasta.user.service.Entities.Users;
 import com.bhrasta.user.service.Exceptions.ResourceNotFoundException;
@@ -21,6 +24,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 	
 	@Override
 	public Users createUser(UsersDTO userDTO) {
@@ -53,8 +59,14 @@ public class UserServiceImpl implements UserService{
 	public Users getUser(String id) {
 		
 		try {
+			
+			Users user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with given Id is not found "+id));
 		
-		return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with given Id is not found "+id));
+			ArrayList<Orders> userOrdersList = restTemplate.getForObject("http://localhost:8080/api/orders/findUserOrders/"+id, ArrayList.class);
+			
+			user.setOrders(userOrdersList);
+			
+			return user;
 	
 		}
 		catch (Exception e) {

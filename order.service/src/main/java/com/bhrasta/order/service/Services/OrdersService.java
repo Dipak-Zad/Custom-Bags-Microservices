@@ -13,6 +13,10 @@ public interface OrdersService{
 	
 	Orders findOrderByIdUsingTemplate(String id);
 	
+	List<Orders> getAllUserOrders(String userId);
+	
+	List<Orders> getAllBagOrders(String userId);
+	
 	List<Orders> GetAllOrders();
 	
 	Orders UpdateOrder(String id, OrdersDTO orderDTO);
