@@ -1,15 +1,23 @@
 package com.bhrasta.bag.service.Services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.bhrasta.bag.service.DTOs.BagsDTO;
 import com.bhrasta.bag.service.Entities.Bags;
+import com.bhrasta.bag.service.Entities.Orders;
+import com.bhrasta.bag.service.Entities.Users;
 import com.bhrasta.bag.service.Exceptions.ResourceNotFoundException;
 import com.bhrasta.bag.service.Repositories.BagsRepository;
 
@@ -21,6 +29,9 @@ public class BagsServiceImpl implements BagsService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 	
 	@Override
 	public Bags addBag(BagsDTO bagsDTO) {
@@ -45,9 +56,34 @@ public class BagsServiceImpl implements BagsService {
 
 	@Override
 	public Bags getBag(String id) {
-		try {
+		try
+		{
 			
-			return bagsRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Bag with given ID doesn't exist "+id));
+			//returns the bag looking for
+			Bags bag = bagsRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Bag with given ID doesn't exist "+id));
+			
+			//returns array of bag's order
+			Orders[] bagOrders = restTemplate.getForObject("http://localhost:8080/api/orders/findBagOrders/"+bag.getId(), Orders[].class);
+			
+			//bagOrder array converted to list
+			List<Orders> orders = Arrays.stream(bagOrders).toList();
+			
+			//getting each order's user and setting it seperately
+			List<Orders> ordersList = orders.stream().map(order ->{
+				
+				ResponseEntity<Users> usersEntity = restTemplate.getForEntity("http://localhost:8081/api/users/findUser/"+order.getUserId(),Users.class);
+			
+				Users user = usersEntity.getBody();
+				
+				order.setUser(user);
+				
+				return order; 
+				
+			}).collect(Collectors.toList());
+			
+			bag.setOrders(ordersList);
+			
+			return bag;
 			
 		}
 		catch (Exception e) {
